@@ -1,0 +1,658 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --page-bg: #1e3a50;
+  /* dark navy page background */
+  --teal: #4ab8c1;
+  /* col2 slider teal background */
+  --teal-dark: #3aa3ac;
+  --col1-bg: #f0f1f3;
+  /* col1 light gray */
+  --col1-active: #ffffff;
+  /* active tab card = white */
+  --navy: #1e2a38;
+  --accent: #e8a020;
+  --white: #ffffff;
+  --text-dark: #1a1a2e;
+  --text-mid: #5a6677;
+  --text-light: #8899aa;
+  --border: #dde2ea;
+  --tab-width: 280px;
+  --img-width: 380px;
+  --font-sans: 'Source Sans Pro', system-ui, sans-serif;
+}
+
+html,
+body {
+  min-height: 100%;
+  font-family: var(--font-sans);
+  background: var(--page-bg);
+  color: var(--text-dark);
+}
+
+/* =========================================
+       PAGE WRAPPER — dark navy bg, centered
+    ========================================= */
+.page-wrapper {
+  background: var(--page-bg);
+  padding: 50px 30px 60px;
+  min-height: 100vh;
+}
+
+/* Section heading */
+.section-heading {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.section-heading h1 {
+  font-family: var(--font-sans);
+  font-size: 2.2rem;
+  font-weight: 300;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+  margin-bottom: 10px;
+}
+
+.section-heading p {
+  font-size: 0.97rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 300;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* =========================================
+       SHOWCASE — 3-column card
+    ========================================= */
+.showcase {
+  display: flex;
+  max-width: 1160px;
+  margin: 0 auto;
+  height: 420px;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+/* =========================================
+       COL 1 — TABS (light gray bg, white active card)
+    ========================================= */
+.col-tabs {
+  width: var(--tab-width);
+  flex-shrink: 0;
+  background: var(--col1-bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px 0;
+  gap: 4px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Individual tab button */
+.tab-btn {
+  display: flex;
+  align-items: center;
+  width: calc(100% - 20px);
+  margin: 0 0 0 10px;
+  padding: 16px 20px 16px 18px;
+  background: transparent;
+  border: none;
+  border-radius: 4px 0 0 4px;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text-mid);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 400;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.tab-btn:hover {
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--text-dark);
+}
+
+/* Active tab = white card with subtle shadow + right chevron */
+.tab-btn.active,
+.tab-btn:focus,
+.tab-btn:focus-visible {
+  background: var(--col1-active);
+  color: var(--text-dark);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+  font-weight: 600;
+  width: calc(100% - 10px);
+  /* extends slightly more to bleed into col2 */
+  border-radius: 4px 0 0 4px;
+  z-index: 2;
+  outline: none;
+}
+
+/* Right-pointing chevron on active tab */
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  right: 0px;
+  top: 40%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid var(--teal);
+  z-index: 3;
+  transform: rotate(-180deg);
+}
+
+/* Tab icon placeholder box (matches the outline icon boxes in the design) */
+.tab-icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0;
+  flex-shrink: 0;
+}
+
+.tab-btn.active .tab-icon-box {
+  border-color: rgba(74, 184, 193, 0.4);
+}
+
+.tab-icon-box svg {
+  width: 30px;
+  height: 30px;
+  stroke: #BA351E;
+  /* coral/red — matches the design's icon colour */
+  fill: none;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tab-name {
+  flex: 1;
+}
+
+/* =========================================
+       COL 2 — SLIDER (teal background)
+    ========================================= */
+.col-slider {
+  flex: 1;
+  min-width: 0;
+  background: var(--teal);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Each category panel */
+.cat-panel {
+  display: none;
+  height: 100%;
+}
+
+.cat-panel.active {
+  display: block;
+}
+
+/* Slick must fill height */
+.content-slider {
+  height: 100%;
+}
+
+.content-slider .slick-list,
+.content-slider .slick-track {
+  height: 100%;
+}
+
+.content-slider .slick-list,
+.content-slider .slick-track,
+.content-slider .slide-wrap {
+  width: 100% !important;
+}
+
+/* Each slide */
+.slide-wrap {
+  height: 100%;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 48px 52px 72px;
+  outline: none;
+  text-align: center;
+}
+
+/* Pill-shaped category tag (grey pill, uppercase small text) */
+.slide-label {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 5px 13px;
+  border-radius: 2px;
+  margin: 0 auto 20px auto;
+}
+
+/* Bold white title */
+.slide-title {
+  font-family: var(--font-sans);
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.3;
+  color: #ffffff;
+  margin-bottom: 24px;
+}
+
+/* "Learn More →" link */
+.slide-learn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  border-bottom: none;
+  transition: gap 0.2s;
+  justify-content: center;
+  width: 100%;
+}
+
+.slide-learn:hover {
+  gap: 12px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.slide-learn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Slick dots — white circles at bottom-center of col2 */
+.content-slider .slick-dots {
+  position: absolute;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex !important;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.content-slider .slick-dots li {
+  width: auto;
+  height: auto;
+  margin: 0;
+}
+
+.content-slider .slick-dots li button {
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  font-size: 0;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s;
+}
+
+.content-slider .slick-dots li button::before {
+  display: none;
+}
+
+.content-slider .slick-dots li.slick-active button {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: #fff;
+  display: none;
+}
+
+/* Hide the nav arrows (col2 arrows hidden — controls are dots only per design) */
+.slider-nav {
+  display: none;
+}
+
+/* =========================================
+       COL 3 — FEATURED IMAGE (1:1 square)
+    ========================================= */
+.col-image {
+  width: var(--img-width);
+  flex-shrink: 0;
+  background: #0d1f2d;
+  position: relative;
+  overflow: hidden;
+}
+
+.col-image .img-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.col-image .feat-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: opacity 0.45s ease;
+}
+
+.col-image .feat-img.fading {
+  opacity: 0;
+}
+
+#panelContainer {
+  height: 100%;
+}
+
+/* =========================================
+       MOBILE — ACCORDION + BG-IMAGE SLIDER
+    ========================================= */
+.mobile-view {
+  display: none;
+}
+
+/* ================================ UPDATED MOBILE VIEW ================================ */
+
+@media (max-width: 991px) {
+
+  /* Keep heading visible on mobile */
+  .page-wrapper {
+    display: block;
+    padding: 30px 16px 20px;
+  }
+
+  .showcase {
+    display: none;
+    /* hide desktop 3-column layout only */
+    height: auto;
+  }
+
+  #desktopWrapper {
+    min-height: auto;
+  }
+
+  .mobile-view {
+    display: block;
+    padding: 10px 12px 20px;
+    background: var(--page-bg);
+  }
+
+  /* Accordion item card */
+  .acc-item {
+    /* background: var(--col1-bg); */
+    border-radius: 6px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    border: none;
+  }
+
+  /* Trigger row */
+  .acc-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px 18px;
+    background: var(--col1-bg);
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    cursor: pointer;
+    position: relative;
+  }
+
+  .acc-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Icon box (left) */
+  .acc-icon-box {
+    width: 38px;
+    height: 38px;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+  }
+
+  /* Plus / minus circle (right) */
+  .acc-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid #d9534f;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .acc-icon::before,
+  .acc-icon::after {
+    content: '';
+    position: absolute;
+    background: #d9534f;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .acc-icon::before {
+    width: 12px;
+    height: 2px;
+  }
+
+  .acc-icon::after {
+    width: 2px;
+    height: 12px;
+  }
+
+  /* Open state */
+  .acc-trigger.open {
+    background: #ffffff;
+    outline: none;
+  }
+
+  .acc-trigger.open .acc-icon::after {
+    opacity: 0;
+    /* minus icon */
+  }
+
+  /* Triangle pointer under active tab */
+  .acc-trigger.open::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: rotate(180deg);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid var(--teal);
+    z-index: 2;
+  }
+
+  /* Panel */
+  .acc-panel {
+    display: none;
+    background: var(--teal);
+  }
+
+  .acc-panel.open {
+    display: block;
+  }
+
+  /* Slider card */
+  .mobile-slider {
+    position: relative;
+    background: var(--teal);
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .mobile-slide {
+    background: transparent;
+    height: 100%;
+    width: 100% !important;
+    padding: 36px 20px 56px;
+  }
+
+  .mobile-slide::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #4ab7c1c3;
+    z-index: 1;
+  }
+
+  .mobile-slide-content {
+    position: relative;
+    padding: 0;
+    z-index: 2;
+    inset: 0;
+  }
+
+  .mobile-slide-content .slide-label {
+    display: inline-block;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    padding: 5px 12px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    margin-bottom: 14px;
+  }
+
+  .mobile-slide-content .slide-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 18px;
+  }
+
+  .mobile-slide-content .slide-learn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  /* Slick dots centered inside teal card */
+  .mobile-slider .slick-dots {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none !important;
+    gap: 8px;
+    padding: 0;
+    background: transparent;
+  }
+
+  .mobile-slider .slick-dots li button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.7);
+  }
+
+  .mobile-slider .slick-dots li.slick-active button {
+    background: #ffffff;
+    border-color: #ffffff;
+  }
+}
+
+
+/* =========================================
+       ADMIN BUTTON (floating)
+    ========================================= */
+.admin-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  background: var(--teal);
+  color: var(--white);
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 2px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.admin-fab:hover {
+  background: var(--teal-dark);
+  color: var(--white);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+/* Spinner */
+.spinner-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--page-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.4s;
+}
+
+.spinner-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-top-color: var(--teal);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
